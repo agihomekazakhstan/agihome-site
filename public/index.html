@@ -3,29 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGI Home - Atlant</title>
+    <title>AGI Home | ЖК Atlant - Консультация AI</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        .ai-chat-header { background: #0052cc; color: white; padding: 20px; text-align: center; position: sticky; top: 0; }
-        .objects-list { padding: 20px; display: grid; gap: 20px; }
-        .card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; }
-        .cta-button { background: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; }
+        :root { --bi-blue: #0052cc; --wa-green: #25D366; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Секция AI Чата */
+        .ai-container { background: #f4f7f9; border-bottom: 2px solid #eee; padding: 20px; position: sticky; top: 0; z-index: 100; height: 40vh; display: flex; flex-direction: column; }
+        .chat-header { color: var(--bi-blue); margin-bottom: 10px; }
+        .chat-box { flex-grow: 1; background: white; border-radius: 10px; padding: 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); overflow-y: auto; border: 1px solid #ddd; }
+        .input-area { margin-top: 10px; display: flex; gap: 10px; }
+        input { flex-grow: 1; padding: 12px; border: 1px solid #ccc; border-radius: 5px; }
+        button { background: var(--bi-blue); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+
+        /* Секция объектов */
+        .catalog-container { padding: 30px 20px; background: white; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #eaeaea; border-radius: 12px; overflow: hidden; transition: 0.3s; }
+        .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .card-content { padding: 15px; }
+        .price { font-size: 1.25rem; color: var(--bi-blue); font-weight: bold; }
+        
+        /* WhatsApp ссылка */
+        .wa-link { display: flex; align-items: center; justify-content: center; background: var(--wa-green); color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-<div class="ai-chat-header">
-    <h2>Чат с AI-брокером Gemini</h2>
-    <p>Спросите меня о ЖК Atlant, ипотеке или доходности</p>
+    <div class="ai-container">
+        <div class="chat-header">
+            <h2 style="margin:0;">AI Брокер @ Atlant</h2>
+            <small>Отвечу про цены, ипотеку и инвестиции 24/7</small>
+        </div>
+        <div class="chat-box" id="chatBox">
+            <p><strong>Gemini:</strong> Привет!!! Я ваш персональный AI-консультант по ЖК Atlant. Сканирование QR подтверждено. Какой объект вас интересует: для жизни или инвестиций?</p>
+        </div>
+        <div class="input-area">
+            <input type="text" placeholder="Спросите меня о планировках или доходности...">
+            <button>Отправить</button>
+        </div>
     </div>
 
-<div class="objects-list">
-    <h3>Доступные объекты в ЖК Atlant</h3>
-    <div class="card">
-        <h4>1-комнатная квартира, 42 м²</h4>
-        <p>Цена: от 28 000 000 ₸</p>
-        <a href="https://wa.me/7XXXXXXXXXX?text=Меня%20интересует%201-комнатная%20в%20Atlant" class="cta-button">Записаться на просмотр</a>
-    </div>
+    <div class="catalog-container">
+        <h2>Доступные квартиры в ЖК Atlant</h2>
+        <div class="grid">
+            <div class="card">
+                <div style="background:#eee; height:200px; display:flex; align-items:center; justify-content:center;">[Планировка 1-комн]</div>
+                <div class="card-content">
+                    <h3>1-комнатная, 45.5 м²</h3>
+                    <p>Потолки 3.0м, предчистовая отделка</p>
+                    <div class="price">от 32 400 000 ₸</div>
+                    <a href="https://wa.me/77XXXXXXXXX?text=Здравствуйте!%20Я%20на%20объекте%20Atlant.%20Заинтересовала%201-комнатная%2045.5м2.%20Нужна%20консультация." class="wa-link">
+                        Записаться на просмотр
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="background:#eee; height:200px; display:flex; align-items:center; justify-content:center;">[Планировка 2-комн]</div>
+                <div class="card-content">
+                    <h3>2-комнатная, 68.2 м²</h3>
+                    <p>Вид на город, 12 этаж</p>
+                    <div class="price">от 48 100 000 ₸</div>
+                    <a href="https://wa.me/77XXXXXXXXX?text=Здравствуйте!%20Я%20в%20Atlant.%20Хочу%20узнать%20про%202-комнатную%2068м2%20для%20инвестиций." class="wa-link">
+                        Инвестировать
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>
