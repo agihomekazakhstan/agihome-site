@@ -3,222 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGI Home Asia | AI Broker</title>
-    <style>
-        :root {
-            --bi-blue: #1a237e;
-            --wa-green: #25d366;
-            --light-gray: #f8f9fa;
-            --border: #dee2e6;
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            background-color: var(--light-gray);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        /* Шапка */
-        header {
-            background: white;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--bi-blue); }
-        .logo span { color: #00d4ff; }
-
-        /* Контентная область */
-        main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 2rem;
-            padding-bottom: 45vh; /* Место под фиксированный чат */
-        }
-
-        .objects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-            transition: transform 0.2s;
-        }
-
-        .card:hover { transform: translateY(-5px); }
-
-        .card-img { height: 180px; background: #eee; display: flex; align-items: center; justify-content: center; color: #999; }
-
-        .card-body { padding: 1.5rem; }
-        .card-body h3 { margin: 0 0 0.5rem 0; color: var(--bi-blue); }
-
-        .btn-wa {
-            display: inline-flex;
-            align-items: center;
-            background: var(--wa-green);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-
-        /* Секция чата (Фиксированная снизу) */
-        .chat-section {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40vh;
-            background: white;
-            border-top: 2px solid var(--bi-blue);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-        }
-
-        .chat-header {
-            background: var(--bi-blue);
-            color: white;
-            padding: 0.8rem 2rem;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        #chat-box {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem 2rem;
-            background: #fdfdfd;
-        }
-
-        .msg { margin-bottom: 1rem; max-width: 80%; padding: 0.8rem; border-radius: 10px; }
-        .ai { background: #e9ecef; align-self: flex-start; }
-        .user { background: var(--bi-blue); color: white; margin-left: auto; }
-
-        .chat-input {
-            padding: 1rem 2rem;
-            display: flex;
-            gap: 1rem;
-            border-top: 1px solid var(--border);
-        }
-
-        input[type="text"] {
-            flex: 1;
-            padding: 0.8rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            outline: none;
-        }
-
-        button#send-btn {
-            background: var(--bi-blue);
-            color: white;
-            border: none;
-            padding: 0 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-    </style>
+    <title>AGI Home | Объекты Bigroup</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-<header>
-    <div class="logo">AGI <span>Home</span></div>
-    <div>+7 778 360 0055</div>
-</header>
+    <header class="ai-header">
+        <div class="container">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="bot-avatar">
+                        <i class="fas fa-robot"></i>
+                        <span class="status-dot"></span>
+                    </div>
+                    <div class="bot-title">
+                        <h1>Gemini AI Брокер</h1>
+                        <p>Консультация по 11 объектам BI Group</p>
+                    </div>
+                </div>
+                
+                <div class="chat-window" id="chatBox">
+                    <div class="message ai">
+                        <div class="message-text">
+                            Здравствуйте! Я изучил данные по объектам в Capital Park, MoD, GreenLine и BI City Seoul. О каком ЖК рассказать подробнее?
+                        </div>
+                    </div>
+                </div>
 
-<main>
-    <h2 style="text-align:center; color: var(--bi-blue);">Объекты в продаже</h2>
-    <div class="objects-grid">
-        <div class="card">
-            <div class="card-img">ЖК Atlant</div>
-            <div class="card-body">
-                <h3>ЖК Atlant</h3>
-                <p>Пилотный проект с QR-интеграцией в Астане.</p>
-                <a href="https://wa.me/77783600055?text=Интересует ЖК Атлант" class="btn-wa">Узнать цену</a>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Например: 'Цены в ЖК Atlant'...">
+                    <button onclick="handleSend()"><i class="fas fa-paper-plane"></i></button>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-img">Capital Park</div>
-            <div class="card-body">
-                <h3>Capital Park Art</h3>
-                <p>Квартиры в самом сердце нового центра.</p>
-                <a href="https://wa.me/77783600055?text=Интересует Capital Park" class="btn-wa">Планировки</a>
+    </header>
+
+    <main class="catalog">
+        <div class="container">
+            <h2 class="section-title">Объекты Bigroup в Астане</h2>
+            <p class="section-subtitle">Выберите свой идеальный дом в лучших Бигвиллях города</p>
+
+            <div class="property-grid">
+                <div class="property-card">
+                    <div class="badge-container">
+                        <span class="badge selection">Выбор месяца</span>
+                    </div>
+                    <div class="card-image" style="background-image: url('img/atlant.jpg');"></div>
+                    <div class="card-content">
+                        <h3>ЖК Atlant</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Центр города (Пилотный проект)</p>
+                        <div class="features">
+                            <span><i class="fas fa-shield-alt"></i> Smart Home</span>
+                            <span><i class="fas fa-parking"></i> Паркинг</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">от 32.4 млн ₸</div>
+                            <div class="actions">
+                                <button class="btn-layout" onclick="openLayout('Atlant')">Планировки</button>
+                                <a href="https://wa.me/77783600055?text=Интересует%20ЖК%20Atlant" class="btn-buy">Купить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <div class="card-image" style="background-image: url('img/cp_art.jpg');"></div>
+                    <div class="card-content">
+                        <h3>Capital Park Art</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Бигвилль Capital Park</p>
+                        <div class="features">
+                            <span><i class="fas fa-leaf"></i> Эко-парк</span>
+                            <span><i class="fas fa-school"></i> Школа BINOM</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">от 1.1 млн ₸/м²</div>
+                            <div class="actions">
+                                <button class="btn-layout" onclick="openLayout('CP_Art')">Планировки</button>
+                                <a href="https://wa.me/77783600055?text=Интересует%20Capital%20Park" class="btn-chat">Чат</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <div class="card-image" style="background-image: url('img/mod.jpg');"></div>
+                    <div class="card-content">
+                        <h3>ЖК MoD</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Район MoD Comfort</p>
+                        <div class="features">
+                            <span><i class="fas fa-bolt"></i> Бизнес-класс</span>
+                            <span><i class="fas fa-key"></i> Скоро сдача</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">Уточняйте цену</div>
+                            <div class="actions">
+                                <button class="btn-layout" onclick="openLayout('MoD')">Планировки</button>
+                                <a href="https://wa.me/77783600055?text=Интересует%20ЖК%20MoD" class="btn-chat">Чат</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <div class="card-image" style="background-image: url('img/greenline.jpg');"></div>
+                    <div class="card-content">
+                        <h3>GreenLine Aurora</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Бигвилль GreenLine</p>
+                        <div class="features">
+                            <span><i class="fas fa-tree"></i> Бульвар</span>
+                            <span><i class="fas fa-video"></i> 24/7 Видео</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price">от 35 млн ₸</div>
+                            <div class="actions">
+                                <button class="btn-layout" onclick="openLayout('GreenLine')">Планировки</button>
+                                <a href="https://wa.me/77783600055?text=Интересует%20GreenLine" class="btn-chat">Чат</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-        <div class="card">
-            <div class="card-img">ЖК MoD</div>
-            <div class="card-body">
-                <h3>ЖК MoD</h3>
-                <p>Премиальная архитектура и стиль.</p>
-                <a href="https://wa.me/77783600055?text=Интересует ЖК MoD" class="btn-wa">Консультация</a>
-            </div>
-        </div>
-    </div>
-</main>
+    </main>
 
-<div class="chat-section">
-    <div class="chat-header">
-        <span>Gemini AI Брокер</span>
-        <span style="font-size: 0.8rem; opacity: 0.8;">Online</span>
-    </div>
-    <div id="chat-box" style="display: flex; flex-direction: column;">
-        <div class="msg ai">Здравствуйте! Я помогу вам выбрать квартиру в одном из 11 объектов. Какой ЖК вас интересует больше всего?</div>
-    </div>
-    <div class="chat-input">
-        <input type="text" id="user-input" placeholder="Напишите ваш вопрос брокеру...">
-        <button id="send-btn">Отправить</button>
-    </div>
-</div>
-
-<script>
-    const sendBtn = document.getElementById('send-btn');
-    const userInput = document.getElementById('user-input');
-    const chatBox = document.getElementById('chat-box');
-
-    function addMessage(text, type) {
-        const div = document.createElement('div');
-        div.className = `msg ${type}`;
-        div.innerText = text;
-        chatBox.appendChild(div);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    sendBtn.onclick = () => {
-        const text = userInput.value.trim();
-        if (text) {
-            addMessage(text, 'user');
-            userInput.value = '';
-            
-            // Имитация ответа ИИ (здесь будет вызов твоего API)
-            setTimeout(() => {
-                addMessage("Отличный выбор! В этом ЖК сейчас доступны 1-комнатные и 2-комнатные квартиры. Хотите посмотреть планировки?", "ai");
-            }, 1000);
-        }
-    };
-
-    // Отправка по Enter
-    userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendBtn.click();
-    });
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
