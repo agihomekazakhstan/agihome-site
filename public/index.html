@@ -3,75 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGI Home | ЖК Atlant - Консультация AI</title>
+    <title>AGI Home Asia | AI Broker</title>
     <style>
-        :root { --bi-blue: #0052cc; --wa-green: #25D366; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        
-        /* Секция AI Чата */
-        .ai-container { background: #f4f7f9; border-bottom: 2px solid #eee; padding: 20px; position: sticky; top: 0; z-index: 100; height: 40vh; display: flex; flex-direction: column; }
-        .chat-header { color: var(--bi-blue); margin-bottom: 10px; }
-        .chat-box { flex-grow: 1; background: white; border-radius: 10px; padding: 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); overflow-y: auto; border: 1px solid #ddd; }
-        .input-area { margin-top: 10px; display: flex; gap: 10px; }
-        input { flex-grow: 1; padding: 12px; border: 1px solid #ccc; border-radius: 5px; }
-        button { background: var(--bi-blue); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        :root {
+            --bi-blue: #1a237e;
+            --wa-green: #25d366;
+            --light-gray: #f8f9fa;
+            --border: #dee2e6;
+        }
 
-        /* Секция объектов */
-        .catalog-container { padding: 30px 20px; background: white; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { border: 1px solid #eaeaea; border-radius: 12px; overflow: hidden; transition: 0.3s; }
-        .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .card-content { padding: 15px; }
-        .price { font-size: 1.25rem; color: var(--bi-blue); font-weight: bold; }
-        
-        /* WhatsApp ссылка */
-        .wa-link { display: flex; align-items: center; justify-content: center; background: var(--wa-green); color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; margin-top: 15px; }
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            background-color: var(--light-gray);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Шапка */
+        header {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--bi-blue); }
+        .logo span { color: #00d4ff; }
+
+        /* Контентная область */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            padding-bottom: 45vh; /* Место под фиксированный чат */
+        }
+
+        .objects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .card-img { height: 180px; background: #eee; display: flex; align-items: center; justify-content: center; color: #999; }
+
+        .card-body { padding: 1.5rem; }
+        .card-body h3 { margin: 0 0 0.5rem 0; color: var(--bi-blue); }
+
+        .btn-wa {
+            display: inline-flex;
+            align-items: center;
+            background: var(--wa-green);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Секция чата (Фиксированная снизу) */
+        .chat-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40vh;
+            background: white;
+            border-top: 2px solid var(--bi-blue);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        }
+
+        .chat-header {
+            background: var(--bi-blue);
+            color: white;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 2rem;
+            background: #fdfdfd;
+        }
+
+        .msg { margin-bottom: 1rem; max-width: 80%; padding: 0.8rem; border-radius: 10px; }
+        .ai { background: #e9ecef; align-self: flex-start; }
+        .user { background: var(--bi-blue); color: white; margin-left: auto; }
+
+        .chat-input {
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+        }
+
+        button#send-btn {
+            background: var(--bi-blue);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <div class="ai-container">
-        <div class="chat-header">
-            <h2 style="margin:0;">AI Брокер @ Atlant</h2>
-            <small>Отвечу про цены, ипотеку и инвестиции 24/7</small>
-        </div>
-        <div class="chat-box" id="chatBox">
-            <p><strong>Gemini:</strong> Привет!!! Я ваш персональный AI-консультант по ЖК Atlant. Сканирование QR подтверждено. Какой объект вас интересует: для жизни или инвестиций?</p>
-        </div>
-        <div class="input-area">
-            <input type="text" placeholder="Спросите меня о планировках или доходности...">
-            <button>Отправить</button>
-        </div>
-    </div>
+<header>
+    <div class="logo">AGI <span>Home</span></div>
+    <div>+7 778 360 0055</div>
+</header>
 
-    <div class="catalog-container">
-        <h2>Доступные квартиры в ЖК Atlant</h2>
-        <div class="grid">
-            <div class="card">
-                <div style="background:#eee; height:200px; display:flex; align-items:center; justify-content:center;">[Планировка 1-комн]</div>
-                <div class="card-content">
-                    <h3>1-комнатная, 45.5 м²</h3>
-                    <p>Потолки 3.0м, предчистовая отделка</p>
-                    <div class="price">от 32 400 000 ₸</div>
-                    <a href="https://wa.me/77XXXXXXXXX?text=Здравствуйте!%20Я%20на%20объекте%20Atlant.%20Заинтересовала%201-комнатная%2045.5м2.%20Нужна%20консультация." class="wa-link">
-                        Записаться на просмотр
-                    </a>
-                </div>
+<main>
+    <h2 style="text-align:center; color: var(--bi-blue);">Объекты в продаже</h2>
+    <div class="objects-grid">
+        <div class="card">
+            <div class="card-img">ЖК Atlant</div>
+            <div class="card-body">
+                <h3>ЖК Atlant</h3>
+                <p>Пилотный проект с QR-интеграцией в Астане.</p>
+                <a href="https://wa.me/77783600055?text=Интересует ЖК Атлант" class="btn-wa">Узнать цену</a>
             </div>
-
-            <div class="card">
-                <div style="background:#eee; height:200px; display:flex; align-items:center; justify-content:center;">[Планировка 2-комн]</div>
-                <div class="card-content">
-                    <h3>2-комнатная, 68.2 м²</h3>
-                    <p>Вид на город, 12 этаж</p>
-                    <div class="price">от 48 100 000 ₸</div>
-                    <a href="https://wa.me/77XXXXXXXXX?text=Здравствуйте!%20Я%20в%20Atlant.%20Хочу%20узнать%20про%202-комнатную%2068м2%20для%20инвестиций." class="wa-link">
-                        Инвестировать
-                    </a>
-                </div>
+        </div>
+        <div class="card">
+            <div class="card-img">Capital Park</div>
+            <div class="card-body">
+                <h3>Capital Park Art</h3>
+                <p>Квартиры в самом сердце нового центра.</p>
+                <a href="https://wa.me/77783600055?text=Интересует Capital Park" class="btn-wa">Планировки</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-img">ЖК MoD</div>
+            <div class="card-body">
+                <h3>ЖК MoD</h3>
+                <p>Премиальная архитектура и стиль.</p>
+                <a href="https://wa.me/77783600055?text=Интересует ЖК MoD" class="btn-wa">Консультация</a>
             </div>
         </div>
     </div>
+</main>
+
+<div class="chat-section">
+    <div class="chat-header">
+        <span>Gemini AI Брокер</span>
+        <span style="font-size: 0.8rem; opacity: 0.8;">Online</span>
+    </div>
+    <div id="chat-box" style="display: flex; flex-direction: column;">
+        <div class="msg ai">Здравствуйте! Я помогу вам выбрать квартиру в одном из 11 объектов. Какой ЖК вас интересует больше всего?</div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="Напишите ваш вопрос брокеру...">
+        <button id="send-btn">Отправить</button>
+    </div>
+</div>
+
+<script>
+    const sendBtn = document.getElementById('send-btn');
+    const userInput = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');
+
+    function addMessage(text, type) {
+        const div = document.createElement('div');
+        div.className = `msg ${type}`;
+        div.innerText = text;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    sendBtn.onclick = () => {
+        const text = userInput.value.trim();
+        if (text) {
+            addMessage(text, 'user');
+            userInput.value = '';
+            
+            // Имитация ответа ИИ (здесь будет вызов твоего API)
+            setTimeout(() => {
+                addMessage("Отличный выбор! В этом ЖК сейчас доступны 1-комнатные и 2-комнатные квартиры. Хотите посмотреть планировки?", "ai");
+            }, 1000);
+        }
+    };
+
+    // Отправка по Enter
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendBtn.click();
+    });
+</script>
 
 </body>
 </html>
